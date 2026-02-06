@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { RootState } from "../app/store";
 import { logout } from "../features/auth/authSlice";
 
 export interface CountdownResponse {
