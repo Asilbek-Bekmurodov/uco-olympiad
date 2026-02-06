@@ -17,31 +17,36 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          # 1. Manba (Source) papkasiga kirish
-          # Agar papka yo'q bo'lsa, uni yaratib clone qilamiz (birinchi marta uchun)
+          # 1. To'g'ri papkaga kirish yoki yaratish
           if [ ! -d "/home/ubuntu/uco-olympiad" ]; then
-            git clone https://github.com/Asilbek-Bekmurodov/uco-olympiad.git /home/ubuntu/project_source
+            # O'zgartirildi: project_source -> uco-olympiad
+            git clone https://github.com/Asilbek-Bekmurodov/uco-olympiad.git /home/ubuntu/uco-olympiad
           fi
 
           # 2. Yangi kodni olish
           cd /home/ubuntu/uco-olympiad
+          
+          # Gitdagi o'zgarishlarni majburan olish (konflikt bo'lmasligi uchun)
+          git reset --hard origin/main
           git pull origin main
 
           # 3. Kutubxonalarni o'rnatish va Build qilish
-          # npm ci - bu 'npm install'ga qaraganda xavfsizroq va tezroq (CI uchun)
           npm install
           npm run build
 
           # 4. TAYYOR FAYLLARNI NGINX PAPKASIGA KO'CHIRISH
-          # Diqqat! Sizda 'dist' yoki 'build' papka ekanligini tekshiring (quyida izoh bor)
           
-          # Eski fayllarni tozalash (xavfsizlik uchun)
+          # Agar maqsad papka yo'q bo'lsa, uni yaratamiz (Xavfsizlik uchun)
+          sudo mkdir -p /var/www/uco-olympiad/html
+          
+          # Ruxsatlarni to'g'irlash (ubuntu yozishi uchun)
+          sudo chown -R ubuntu:ubuntu /var/www/uco-olympiad/html
+
+          # Eski fayllarni tozalash
           rm -rf /var/www/uco-olympiad/html/*
           
-          # Yangi fayllarni ko'chirish (Vite ishlatayotgan bo'lsangiz 'dist', React CRA bo'lsa 'build' bo'ladi)
+          # Yangi fayllarni ko'chirish
+          # DIQQAT: Agar sizda 'dist' papkasi bo'lsa. Agar 'build' bo'lsa, pastdagini o'zgartiring.
           cp -r dist/* /var/www/uco-olympiad/html/
-          
-          # 5. Nginxni ogohlantirish (shart emas, lekin tavsiya etiladi)
-          # sudo systemctl reload nginx
           
           echo "Deploy muvaffaqiyatli yakunlandi! 🚀"
