@@ -12,14 +12,14 @@ interface LoginProps {
 const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
   const dispatch = useAppDispatch();
   const [credentials, setCredentials] = useState({
-    username: "",
+    phoneNumber: "",
     password: "",
     remember: true,
   });
   const [loginUser, { isLoading }] = useLoginUserMutation();
 
   const handleChange = (
-    key: "username" | "password" | "remember",
+    key: "phoneNumber" | "password" | "remember",
     value: string | boolean
   ) => {
     setCredentials((prev) => ({ ...prev, [key]: value }));
@@ -29,11 +29,26 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
     e.preventDefault();
     try {
       const res = await loginUser({
-        username: credentials.username,
+        phoneNumber: credentials.phoneNumber,
+        // Some backends expect `username`, mirror the phone there too
+        username: credentials.phoneNumber,
         password: credentials.password,
       }).unwrap();
-      if (res?.token) {
-        dispatch(setToken({ token: res.token, role: res.role }));
+      const token =
+        res?.token ??
+        res?.accessToken ??
+        res?.jwt ??
+        (res as any)?.data?.token ??
+        (res as any)?.data?.accessToken ??
+        (res as any)?.data?.jwt;
+      const role =
+        (res as any)?.role ??
+        (res as any)?.data?.role ??
+        (res as any)?.user?.role;
+      if (token) {
+        dispatch(setToken({ token, role }));
+      } else {
+        console.warn("No token found in login response", res);
       }
       onSuccess();
     } catch (error) {
@@ -70,8 +85,8 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
               <input
                 type="tel"
                 placeholder="(+998) 90-988-89-54"
-                value={credentials.username}
-                onChange={(e) => handleChange("username", e.target.value)}
+                value={credentials.phoneNumber}
+                onChange={(e) => handleChange("phoneNumber", e.target.value)}
                 className="w-full h-[5.4rem] rounded-[1.6rem] border border-[#dfe4ff] px-4 text-[1.5rem] text-[#2f2f4d] placeholder:text-[#a3a7c2] focus:outline-none focus:border-[#6C4DFF] shadow-[0_12px_34px_-24px_rgba(70,78,144,0.4)]"
                 required
               />

@@ -9,11 +9,13 @@ import type {
 } from "../features/auth/types";
 
 const baseQuery = fetchBaseQuery({
-  // Expect VITE_API_BASE_URL without a trailing slash, e.g. http://51.20.189.160:8080/api
-  baseUrl:
-    (import.meta.env.VITE_API_BASE_URL as string | undefined) ??
-    "http://51.20.189.160:8080/api",
-  prepareHeaders: (headers, { getState }) => {
+  // VITE_API_BASE_URL should include the API prefix, e.g. http://56.228.75.226:8080/api
+  baseUrl: import.meta.env.VITE_API_BASE_URL as string,
+  prepareHeaders: (headers, { getState, endpoint }) => {
+    // Public auth endpoints must not send stale Authorization headers
+    if (endpoint && ["register", "verify", "loginUser"].includes(endpoint)) {
+      return headers;
+    }
     const token = (getState() as RootState).auth.token;
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
@@ -42,9 +44,12 @@ export const authApi = createApi({
           url: "/auth/register",
           method: "POST",
           body: {
-            firstName: firstname,
-            lastName: lastname,
+            // Backend expects snake-case keys for names
+            firstname,
+            lastname,
             ...rest,
+            // Some backends expect `username`; mirror phone number to be safe
+            username: rest.phoneNumber,
           },
         };
       },

@@ -53,7 +53,10 @@ const App = () => {
         />
       )}
       {screen === "register" && (
-        <Register onVerifySuccess={() => navigate("login")} />
+        <Register
+          onVerifySuccess={() => navigate("login")}
+          onLoginClick={() => navigate("login")}
+        />
       )}
     </div>
   );

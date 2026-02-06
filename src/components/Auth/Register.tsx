@@ -16,9 +16,10 @@ type RegisterFormKey = keyof RegisterFormData;
 
 interface RegisterProps {
   onVerifySuccess?: () => void;
+  onLoginClick?: () => void;
 }
 
-const Register = ({ onVerifySuccess }: RegisterProps) => {
+const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
   const [formData, setFormData] = useState<RegisterFormData>({
     firstname: "",
     lastname: "",
@@ -28,8 +29,10 @@ const Register = ({ onVerifySuccess }: RegisterProps) => {
     password: "",
   });
 
+  console.log(formData);
+
   const [otp, setOtp] = useState("");
-  const [currentStep, setCurrentStep] = useState<1 | 2>(2);
+  const [currentStep, setCurrentStep] = useState<1 | 2>(1);
   const [register, { isLoading }] = useRegisterMutation();
   const [verify, { isLoading: isVerifying }] = useVerifyMutation();
 
@@ -248,9 +251,13 @@ const Register = ({ onVerifySuccess }: RegisterProps) => {
             <div className="text-center mt-[3.2rem]">
               <p className="text-[#9A9AAF] text-[1.4rem]">
                 Hisobingiz mavjudmi?{" "}
-                <span className="text-[#6C4DFF] font-medium cursor-pointer">
+                <button
+                  type="button"
+                  onClick={onLoginClick}
+                  className="text-[#6C4DFF] font-medium cursor-pointer hover:underline"
+                >
                   Tizimga kirish
-                </span>
+                </button>
               </p>
             </div>
           </div>

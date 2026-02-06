@@ -19,12 +19,15 @@ export interface VerifyPayload {
 }
 
 export interface LoginPayload {
-  username: string;
+  phoneNumber?: string;
+  username?: string;
   password: string;
 }
 
 export interface LoginResponse {
   token?: string;
+  accessToken?: string;
+  jwt?: string;
   role?: "admin" | "user" | string;
 }
 

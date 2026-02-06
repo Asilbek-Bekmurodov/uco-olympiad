@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetStatsQuery } from "../../services/userApi";
+import { useGetCountdownQuery } from "../../services/userApi";
 import { logout } from "../../features/auth/authSlice";
 import type { RootState } from "../../app/store";
 
@@ -14,24 +14,32 @@ const Home = ({ onLogout }: HomeProps) => {
   const dispatch = useDispatch();
   const role = useSelector((s: RootState) => s.auth.role);
   const token = useSelector((s: RootState) => s.auth.token);
-  const { data, isFetching, refetch } = useGetStatsQuery(undefined, {
+  const { data, isFetching, refetch } = useGetCountdownQuery(undefined, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,
   });
   const [remaining, setRemaining] = useState<number | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const lastServerSeconds = useRef<number | null>(null);
 
   // Initialize countdown when new data arrives
-  useEffect(() => {
-    if (!data) return;
-    const totalSeconds =
+  const totalSeconds = useMemo(() => {
+    if (!data) return null;
+    return (
       (((data.days ?? 0) * 24 + (data.hours ?? 0)) * 60 + (data.minutes ?? 0)) *
         60 +
-      (data.seconds ?? 0);
-    setRemaining((prev) => (prev === totalSeconds ? prev : totalSeconds));
-  }, [data]);
+      (data.seconds ?? 0)
+    );
+  }, [data?.days, data?.hours, data?.minutes, data?.seconds]);
 
+  useEffect(() => {
+    if (totalSeconds === null) return;
+    if (lastServerSeconds.current === totalSeconds) return;
+    lastServerSeconds.current = totalSeconds;
+    const id = setTimeout(() => setRemaining(totalSeconds), 0);
+    return () => clearTimeout(id);
+  }, [totalSeconds]);
   // Tick every second
   useEffect(() => {
     if (remaining === null) return;
@@ -52,9 +60,9 @@ const Home = ({ onLogout }: HomeProps) => {
   }, [remaining]);
 
   const statusText =
-    data?.isstarted && (remaining ?? 0) === 0
+    data?.isStarted && (remaining ?? 0) === 0
       ? "Imtihon boshlandi!"
-      : (data?.message ?? "Yuklanmoqda...");
+      : data?.message ?? "Yuklanmoqda...";
 
   const handleLogout = () => {
     dispatch(logout());
