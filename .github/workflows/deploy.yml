@@ -1,34 +1,47 @@
-name: Deploy to EC2
+name: Deploy to Production
 
 on:
   push:
     branches:
-      - main # Qaysi branchga push qilganda ishlashi kerak (main yoki master)
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_IP }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          # 1. Manba (Source) papkasiga kirish
+          # Agar papka yo'q bo'lsa, uni yaratib clone qilamiz (birinchi marta uchun)
+          if [ ! -d "/home/ubuntu/uco-olympiad" ]; then
+            git clone https://github.com/Asilbek-Bekmurodov/uco-olympiad.git /home/ubuntu/project_source
+          fi
 
-      - name: Deploy to Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_IP }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            # Loyiha papkasiga kirish (papka nomini to'g'rilang)
-            cd /home/ubuntu/uco-olympiad 
+          # 2. Yangi kodni olish
+          cd /home/ubuntu/uco-olympiad
+          git pull origin main
 
-            # Yangi o'zgarishlarni olish
-            git pull origin main
+          # 3. Kutubxonalarni o'rnatish va Build qilish
+          # npm ci - bu 'npm install'ga qaraganda xavfsizroq va tezroq (CI uchun)
+          npm install
+          npm run build
 
-            # Kutubxonalarni yangilash va build qilish (agar kerak bo'lsa)
-            npm install
-            npm run build
-
-            # Agar Nginx ishlatayotgan bo'lsangiz, uni restart qilish (ixtiyoriy)
-            sudo systemctl restart nginx
+          # 4. TAYYOR FAYLLARNI NGINX PAPKASIGA KO'CHIRISH
+          # Diqqat! Sizda 'dist' yoki 'build' papka ekanligini tekshiring (quyida izoh bor)
+          
+          # Eski fayllarni tozalash (xavfsizlik uchun)
+          rm -rf /var/www/uco-olympiad/html/*
+          
+          # Yangi fayllarni ko'chirish (Vite ishlatayotgan bo'lsangiz 'dist', React CRA bo'lsa 'build' bo'ladi)
+          cp -r dist/* /var/www/uco-olympiad/html/
+          
+          # 5. Nginxni ogohlantirish (shart emas, lekin tavsiya etiladi)
+          # sudo systemctl reload nginx
+          
+          echo "Deploy muvaffaqiyatli yakunlandi! 🚀"
