@@ -1,0 +1,34 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main # Qaysi branchga push qilganda ishlashi kerak (main yoki master)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Loyiha papkasiga kirish (papka nomini to'g'rilang)
+            cd /home/ubuntu/uco-olympiad 
+
+            # Yangi o'zgarishlarni olish
+            git pull origin main
+
+            # Kutubxonalarni yangilash va build qilish (agar kerak bo'lsa)
+            npm install
+            npm run build
+
+            # Agar Nginx ishlatayotgan bo'lsangiz, uni restart qilish (ixtiyoriy)
+            sudo systemctl restart nginx
