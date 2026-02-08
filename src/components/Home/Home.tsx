@@ -15,7 +15,7 @@ const Home = ({ onLogout }: HomeProps) => {
   const dispatch = useDispatch();
   const role = useSelector((s: RootState) => s.auth.role);
   const token = useSelector((s: RootState) => s.auth.token);
-  const { data, isFetching, refetch } = useGetCountdownQuery(undefined, {
+  const { data } = useGetCountdownQuery(undefined, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,

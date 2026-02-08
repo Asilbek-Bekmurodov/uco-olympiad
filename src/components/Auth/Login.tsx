@@ -5,7 +5,6 @@ import { useAppDispatch } from "../../app/hooks";
 import { setToken } from "../../features/auth/authSlice";
 import Uco from "../../assets/Uco icon.svg";
 
-
 interface LoginProps {
   onSuccess: () => void;
   onBackToRegister?: () => void;
@@ -37,17 +36,9 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
         password: credentials.password,
       }).unwrap();
       console.log("✅ Login successful:", res);
-      const token =
-        res?.token ??
-        res?.accessToken ??
-        res?.jwt ??
-        (res as any)?.data?.token ??
-        (res as any)?.data?.accessToken ??
-        (res as any)?.data?.jwt;
-      const role =
-        (res as any)?.role ??
-        (res as any)?.data?.role ??
-        (res as any)?.user?.role;
+      const token = res?.token;
+      // API may return either `role` or `roles` array; prefer explicit single role
+      const role = res?.role ?? res?.roles?.[0]?.role;
       if (token) {
         dispatch(setToken({ token, role }));
       } else {
