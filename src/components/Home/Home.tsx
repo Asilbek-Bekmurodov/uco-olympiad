@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetCountdownQuery } from "../../services/userApi";
 import { logout } from "../../features/auth/authSlice";
 import type { RootState } from "../../app/store";
+import Logo from "../../assets/site-logo.svg";
 
 const formatTime = (value: number) => value.toString().padStart(2, "0");
 
@@ -62,7 +63,7 @@ const Home = ({ onLogout }: HomeProps) => {
   const statusText =
     data?.isStarted && (remaining ?? 0) === 0
       ? "Imtihon boshlandi!"
-      : data?.message ?? "Yuklanmoqda...";
+      : (data?.message ?? "Yuklanmoqda...");
 
   const handleLogout = () => {
     dispatch(logout());
@@ -70,41 +71,31 @@ const Home = ({ onLogout }: HomeProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#f8f9ff] to-[#eef1ff] px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-[#f8f9ff] to-[#eef1ff] px-4 pb-4 py-2">
       {/* Header */}
-      <header className="max-w-5xl mx-auto flex items-center justify-between mb-8">
+      <header className=" flex items-center justify-between mb-6 bg-white p-3 rounded-4xl">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-white shadow-[0_20px_60px_-24px_rgba(63,65,150,0.35)] flex items-center justify-center">
-            <span className="text-xl font-bold text-[#4E46E5]">U</span>
-          </div>
-          <div>
-            <div className="text-xl font-bold text-[#4735ff] leading-none">
-              UCO
-            </div>
-            <div className="text-[0.8rem] uppercase tracking-[0.16em] text-[#7c82c6]">
-              Coding Olympiad
-            </div>
-          </div>
+          <img className="w-20" src={Logo} alt="" />
         </div>
 
         <div className="relative">
           <button
             onClick={() => setDropdownOpen((p) => !p)}
-            className="w-11 h-11 rounded-full bg-gradient-to-r from-[#6b7bff] to-[#4b32ff] text-white font-semibold shadow-[0_18px_32px_-18px_rgba(75,59,255,0.55)] flex items-center justify-center focus:outline-none"
+            className="w-6 h-6 rounded-full bg-gradient-to-r from-[#6b7bff] to-[#4b32ff] text-white font-semibold shadow-[0_18px_32px_-18px_rgba(75,59,255,0.55)] flex items-center justify-center focus:outline-none"
           >
             {role ? role[0]?.toUpperCase() : "U"}
           </button>
           {dropdownOpen && (
-            <div className="absolute right-0 mt-3 w-48 bg-white border border-[#e8eafc] rounded-2xl shadow-[0_20px_50px_-26px_rgba(44,52,106,0.45)] overflow-hidden">
-              <div className="px-4 py-3 text-sm text-[#2f2f4d] border-b border-[#f1f2ff]">
+            <div className="absolute right-0 mt-3 w-38 bg-white border border-[#e8eafc] rounded-2xl shadow-[0_20px_50px_-26px_rgba(44,52,106,0.45)] overflow-hidden">
+              <div className="px-4 py-3 text-2xl text-[#2f2f4d] border-b border-[#f1f2ff]">
                 Rol: {role ?? "no role"}
               </div>
-              <button className="w-full text-left px-4 py-3 text-sm text-[#3c3c55] hover:bg-[#f6f7ff]">
+              <button className="w-full text-left px-4 py-3 text-2xl text-[#3c3c55] hover:bg-[#f6f7ff]">
                 Profile settings
               </button>
               <button
                 onClick={handleLogout}
-                className="w-full text-left px-4 py-3 text-sm text-red-500 hover:bg-[#fef2f2]"
+                className="w-full text-left px-4 py-3 text-2xl text-red-500 hover:bg-[#fef2f2]"
               >
                 Log out
               </button>
@@ -114,13 +105,10 @@ const Home = ({ onLogout }: HomeProps) => {
       </header>
 
       {/* Main content */}
-      <div className="max-w-5xl mx-auto">
-        <div className="w-full bg-white border border-[#eef0ff] rounded-[2.8rem] shadow-[0_30px_60px_-30px_rgba(35,46,120,0.45)] p-[3.2rem] md:p-[4rem]">
+      <div className="mx-auto w-[900px]">
+        <div className="bg-white border border-[#eef0ff] rounded-[2.8rem] shadow-[0_30px_60px_-30px_rgba(35,46,120,0.45)] p-[3.2rem] px-5">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <p className="text-[1.4rem] text-[#7d82a8]">
-                Foydalanuvchi statistikasi
-              </p>
               <h2 className="text-[2.4rem] font-semibold text-[#24195a]">
                 Imtihon sanog‘i
               </h2>
@@ -130,13 +118,13 @@ const Home = ({ onLogout }: HomeProps) => {
                 </p>
               )}
             </div>
-            <button
+            {/* <button
               onClick={() => refetch()}
-              className="text-[1.3rem] text-[#4f46e5] font-semibold hover:underline"
+              className="text-[1.6rem] text-[#4f46e5] font-semibold hover:underline"
               disabled={isFetching}
             >
               {isFetching ? "Yangilanmoqda..." : "Yangilash"}
-            </button>
+            </button> */}
           </div>
 
           <div className="bg-gradient-to-r from-[#6b7bff] to-[#4b32ff] text-white rounded-[2rem] p-6 shadow-[0_20px_44px_-18px_rgba(75,59,255,0.65)]">
@@ -145,29 +133,29 @@ const Home = ({ onLogout }: HomeProps) => {
                 <div className="text-[3rem] font-bold leading-none">
                   {formatTime(breakdown.days)}
                 </div>
-                <p className="text-sm opacity-80">Kun</p>
+                <p className="text-2xl opacity-80">Kun</p>
               </div>
               <div>
                 <div className="text-[3rem] font-bold leading-none">
                   {formatTime(breakdown.hours)}
                 </div>
-                <p className="text-sm opacity-80">Soat</p>
+                <p className="text-2xl opacity-80">Soat</p>
               </div>
               <div>
                 <div className="text-[3rem] font-bold leading-none">
                   {formatTime(breakdown.minutes)}
                 </div>
-                <p className="text-sm opacity-80">Daqiqa</p>
+                <p className="text-2xl opacity-80">Daqiqa</p>
               </div>
               <div>
                 <div className="text-[3rem] font-bold leading-none">
                   {formatTime(breakdown.seconds)}
                 </div>
-                <p className="text-sm opacity-80">Soniya</p>
+                <p className="text-2xl opacity-80">Soniya</p>
               </div>
             </div>
 
-            <p className="mt-5 text-center text-[1.4rem] font-medium">
+            <p className="mt-5 text-center text-[2rem] font-medium">
               {statusText}
             </p>
           </div>

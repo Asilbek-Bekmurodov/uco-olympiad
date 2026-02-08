@@ -104,13 +104,14 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
         </div>
 
         {/* RIGHT FORM */}
-        <div className="w-full h-screen bg-gray-50 flex justify-center items-center">
-          <div className="border border-gray-300 rounded-[3.2rem] p-[4.8rem] shadow-neutral-shadow w-[48rem]">
-            <h1 className="text-purple-dark text-[2.4rem] font-semibold mb-[3.2rem]">
-              {currentStep === 1 ? "Ro'yxatdan o'tish" : "SMS kodni tasdiqlang"}
-            </h1>
 
-            {currentStep === 1 && (
+        {currentStep === 1 && (
+          <div className="w-full h-screen bg-gray-50 flex justify-center items-center">
+            <div className="border border-gray-300 rounded-[3.2rem] p-[4.8rem] shadow-neutral-shadow w-[48rem]">
+              <h1 className="text-purple-dark text-[2.4rem] font-semibold mb-[3.2rem]">
+                Ro'yxatdan o'tish
+              </h1>
+
               <form onSubmit={submitRegister}>
                 {/* ISM + FAMILIYA */}
                 <div className="grid grid-cols-2 gap-[2.4rem] mb-[2.4rem]">
@@ -153,7 +154,6 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
                   />
                 </div>
 
-                {/* SINF + TIL */}
                 <div className="grid grid-cols-2 gap-[2.4rem] mb-[3.2rem]">
                   <FormInput
                     label="Sinf"
@@ -193,39 +193,42 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
                   {isLoading ? "Yuborilmoqda..." : "Davom etish"}
                 </button>
               </form>
-            )}
-            {currentStep === 2 && (
-              <form onSubmit={submitOtp} className="flex flex-col items-center">
-                {/* DESCRIPTION */}
-                <p className="text-center text-[#6C6C7A] text-[1.4rem] leading-[2.2rem] mb-[4rem]">
-                  +998 telefon raqamingizga yuborilgan 6 xonali SMS kodni
-                  kiriting.
-                </p>
 
-                {/* INNER OTP CARD */}
-                <div
-                  className="
-        w-[36rem]
-        bg-white
-        border border-[#EEF0FF]
-        rounded-[2.8rem]
-        px-[4rem]
-        pt-[5.2rem]
-        pb-[4rem]
-        flex flex-col items-center
-        gap-[4rem]
-        shadow-[0_30px_60px_-30px_rgba(35,46,120,0.45)]
-      "
-                >
-                  {/* OTP INPUTS */}
-                  <OtpInput value={otp} onChange={setOtp} />
-
-                  {/* BUTTON */}
+              {/* FOOTER */}
+              <div className="text-center mt-[3.2rem]">
+                <p className="text-[#9A9AAF] text-[1.4rem]">
+                  Hisobingiz mavjudmi?{" "}
                   <button
-                    type="submit"
-                    disabled={isVerifying}
-                    className="
-          w-[20rem]
+                    type="button"
+                    onClick={onLoginClick}
+                    className="text-[#6C4DFF] font-medium cursor-pointer hover:underline"
+                  >
+                    Tizimga kirish
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 2 && (
+          <div className="flex justify-center w-[100%]">
+            <div className="flex justify-center">
+              <form
+                onSubmit={submitOtp}
+                className="flex flex-col items-center border-4 border-gray-200 rounded-4xl p-5"
+              >
+                {/* INNER OTP CARD */}
+
+                {/* OTP INPUTS */}
+                <OtpInput value={otp} onChange={setOtp} />
+
+                {/* BUTTON */}
+                <button
+                  type="submit"
+                  disabled={isVerifying}
+                  className="
+          w-[100%]
           h-[5.6rem]
           rounded-[1.8rem]
           text-white
@@ -240,28 +243,13 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
           transition
           disabled:opacity-60
         "
-                  >
-                    {isVerifying ? "Tasdiqlanmoqda..." : "Davom etish"}
-                  </button>
-                </div>
-              </form>
-            )}
-
-            {/* FOOTER */}
-            <div className="text-center mt-[3.2rem]">
-              <p className="text-[#9A9AAF] text-[1.4rem]">
-                Hisobingiz mavjudmi?{" "}
-                <button
-                  type="button"
-                  onClick={onLoginClick}
-                  className="text-[#6C4DFF] font-medium cursor-pointer hover:underline"
                 >
-                  Tizimga kirish
+                  {isVerifying ? "Tasdiqlanmoqda..." : "Tasdiqlash"}
                 </button>
-              </p>
+              </form>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
