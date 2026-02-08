@@ -218,21 +218,64 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-[2.4rem] mb-[3.2rem]">
-                  <FormInput
-                    label="Sinf"
-                    required
-                    placeholder="10-A"
-                    value={formData.className}
-                    onChange={(e) => handleChange("className", e.target.value)}
-                  />
+                  <div>
+                    <label className="block text-[1.4rem] font-medium text-[#1C1C28] mb-[0.8rem]">
+                      Sinf<span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={formData.className}
+                      onChange={(e) => handleChange("className", e.target.value)}
+                      className="
+                        w-full
+                        h-[5.6rem]
+                        px-[1.6rem]
+                        rounded-[1.6rem]
+                        border border-[#E6E6F0]
+                        text-[1.5rem]
+                        text-[#2f2f4d]
+                        outline-none
+                        focus:border-[#6C4DFF]
+                      "
+                      required
+                    >
+                      <option value="" disabled>
+                        Sinfni tanlang
+                      </option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                    </select>
+                  </div>
 
-                  <FormInput
-                    label="Til"
-                    required
-                    placeholder="uz / ru"
-                    value={formData.language}
-                    onChange={(e) => handleChange("language", e.target.value)}
-                  />
+                  <div>
+                    <label className="block text-[1.4rem] font-medium text-[#1C1C28] mb-[0.8rem]">
+                      Til<span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={formData.language}
+                      onChange={(e) => handleChange("language", e.target.value)}
+                      className="
+                        w-full
+                        h-[5.6rem]
+                        px-[1.6rem]
+                        rounded-[1.6rem]
+                        border border-[#E6E6F0]
+                        text-[1.5rem]
+                        text-[#2f2f4d]
+                        outline-none
+                        focus:border-[#6C4DFF]
+                      "
+                      required
+                    >
+                      <option value="uz">uz</option>
+                      <option value="ru">ru</option>
+                    </select>
+                  </div>
                 </div>
 
                 <button
