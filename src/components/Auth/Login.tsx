@@ -37,7 +37,6 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
       }).unwrap();
       console.log("✅ Login successful:", res);
       const token = res?.token;
-      // API may return either `role` or `roles` array; prefer explicit single role
       const role = res?.role ?? res?.roles?.[0]?.role;
       if (token) {
         dispatch(setToken({ token, role }));

@@ -7,6 +7,7 @@ import StepBar from "../StepBar/StepBar";
 import StepNumber from "../StepNumber/StepNumber";
 import Support from "../Support/Support";
 import FormInput from "../FormInput/FormInput";
+import Uco from "../../assets/Uco icon.svg";
 
 type RegisterFormKey = keyof RegisterFormData;
 
@@ -79,7 +80,7 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
             <div>
               <img
                 className="mx-auto mb-[5.6rem] w-[14rem]"
-                src="/src/assets/site-logo.svg"
+                src={Uco}
                 alt="Logo"
               />
 
