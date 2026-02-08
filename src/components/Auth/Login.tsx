@@ -59,17 +59,7 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
   return (
     <div className="min-h-screen flex flex-col items-center bg-[#f7f8ff] py-10 px-4">
       {/* Logo */}
-      <div className="mb-6 flex flex-col items-center gap-2">
-        <div className="w-16 h-16 rounded-2xl bg-white shadow-[0_20px_60px_-24px_rgba(63,65,150,0.35)] flex items-center justify-center">
-          <span className="text-2xl font-bold text-[#4E46E5]">U</span>
-        </div>
-        <div className="text-3xl font-extrabold text-[#4735ff] leading-none">
-          UCO
-        </div>
-        <div className="text-[0.9rem] uppercase tracking-[0.18em] text-[#7c82c6]">
-          Uzbekistan Coding Olympiad
-        </div>
-      </div>
+      
 
       <div className="w-full max-w-[720px] bg-white border border-[#eef0ff] rounded-[2.8rem] shadow-[0_30px_60px_-30px_rgba(35,46,120,0.45)] px-[3.2rem] md:px-[4rem] py-[3.6rem]">
         <h1 className="text-[2.4rem] font-semibold text-[#24195a] mb-[2.8rem]">
