@@ -4,6 +4,7 @@ import { useLoginUserMutation } from "../../services/authApi";
 import { useAppDispatch } from "../../app/hooks";
 import { setToken } from "../../features/auth/authSlice";
 
+
 interface LoginProps {
   onSuccess: () => void;
   onBackToRegister?: () => void;
@@ -34,6 +35,7 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
         username: credentials.phoneNumber,
         password: credentials.password,
       }).unwrap();
+      console.log("✅ Login successful:", res);
       const token =
         res?.token ??
         res?.accessToken ??
