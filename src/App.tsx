@@ -2,21 +2,24 @@ import { useEffect, useState } from "react";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import Home from "./components/Home/Home";
+import PublicHero from "./components/Public/PublicHero";
 import { useAppSelector } from "./app/hooks";
 
 const App = () => {
-  type Screen = "register" | "login" | "home";
+  type Screen = "public" | "register" | "login" | "home";
 
   const pathToScreen = (path: string): Screen => {
     if (path.startsWith("/login")) return "login";
+    if (path.startsWith("/register")) return "register";
     if (path.startsWith("/home")) return "home";
-    return "register";
+    return "public";
   };
 
   const screenToPath = (screen: Screen) => {
     if (screen === "login") return "/login";
+    if (screen === "register") return "/register";
     if (screen === "home") return "/home";
-    return "/register";
+    return "/";
   };
 
   const [screen, setScreen] = useState<Screen>(
@@ -37,6 +40,12 @@ const App = () => {
 
   return (
     <div className="h-screen">
+      {screen === "public" && (
+        <PublicHero
+          onLogin={() => navigate("login")}
+          onRegister={() => navigate("register")}
+        />
+      )}
       {screen === "home" &&
         (isAuthenticated ? (
           <Home onLogout={() => navigate("login")} />

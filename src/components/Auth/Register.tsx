@@ -7,6 +7,8 @@ import StepBar from "../StepBar/StepBar";
 import StepNumber from "../StepNumber/StepNumber";
 import Support from "../Support/Support";
 import FormInput from "../FormInput/FormInput";
+import Uco from "../../assets/Uco icon.svg";
+import { formatUzPhoneLocal, normalizeUzPhone } from "../../utils/phone";
 
 type RegisterFormKey = keyof RegisterFormData;
 
@@ -33,6 +35,7 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
 
   const [otp, setOtp] = useState("");
   const [currentStep, setCurrentStep] = useState<1 | 2>(1);
+  const [showPassword, setShowPassword] = useState(false);
   const [register, { isLoading }] = useRegisterMutation();
   const [verify, { isLoading: isVerifying }] = useVerifyMutation();
 
@@ -79,7 +82,7 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
             <div>
               <img
                 className="mx-auto mb-[5.6rem] w-[14rem]"
-                src="/src/assets/site-logo.svg"
+                src={Uco}
                 alt="Logo"
               />
 
@@ -104,13 +107,14 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
         </div>
 
         {/* RIGHT FORM */}
-        <div className="w-full h-screen bg-gray-50 flex justify-center items-center">
-          <div className="border border-gray-300 rounded-[3.2rem] p-[4.8rem] shadow-neutral-shadow w-[48rem]">
-            <h1 className="text-purple-dark text-[2.4rem] font-semibold mb-[3.2rem]">
-              {currentStep === 1 ? "Ro'yxatdan o'tish" : "SMS kodni tasdiqlang"}
-            </h1>
 
-            {currentStep === 1 && (
+        {currentStep === 1 && (
+          <div className="w-full h-screen bg-gray-50 flex justify-center items-center">
+            <div className="border border-gray-300 rounded-[3.2rem] p-[4.8rem] shadow-neutral-shadow w-[70rem]">
+              <h1 className="text-purple-dark text-[2.4rem] font-semibold mb-[3.2rem]">
+                Ro'yxatdan o'tish
+              </h1>
+
               <form onSubmit={submitRegister}>
                 {/* ISM + FAMILIYA */}
                 <div className="grid grid-cols-2 gap-[2.4rem] mb-[2.4rem]">
@@ -133,43 +137,145 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
 
                 {/* TELEFON + PAROL */}
                 <div className="grid grid-cols-2 gap-[2.4rem] mb-[2.4rem]">
-                  <FormInput
-                    label="Telefon raqam"
-                    required
-                    placeholder="+998901234567"
-                    value={formData.phoneNumber}
-                    onChange={(e) =>
-                      handleChange("phoneNumber", e.target.value)
-                    }
-                  />
+                  <div className="flex flex-col gap-2">
+                    <label className="block text-[1.4rem] font-medium text-[#1C1C28] mb-[0.8rem]">
+                      Telefon raqam<span className="text-red-500">*</span>
+                    </label>
+                    <div className="flex items-center w-full h-[5.6rem] px-[0.4rem] rounded-[1.6rem] border border-[#E6E6F0] text-[1.5rem] text-[#2f2f4d] focus-within:border-[#6C4DFF]">
+                      <span className="pl-1 pr-1 font-semibold text-[#6C4DFF]">
+                        +998
+                      </span>
+                      <input
+                        type="tel"
+                        inputMode="tel"
+                        maxLength={18}
+                        placeholder="(91) 457-26-14"
+                        value={formatUzPhoneLocal(formData.phoneNumber)}
+                        onChange={(e) =>
+                          handleChange(
+                            "phoneNumber",
+                            normalizeUzPhone(e.target.value)
+                              ? `+998${normalizeUzPhone(e.target.value)}`
+                              : "",
+                          )
+                        }
+                        className="flex-1 h-full rounded-[1.6rem] text-[1.5rem] text-[#2f2f4d] placeholder:text-[#9A9AAF] outline-none "
+                        required
+                      />
+                    </div>
+                  </div>
 
-                  <FormInput
-                    label="Parol"
-                    type="password"
-                    required
-                    placeholder="********"
-                    value={formData.password}
-                    onChange={(e) => handleChange("password", e.target.value)}
-                  />
+                  <div className="flex flex-col gap-2">
+                    <label className="block text-[1.4rem] font-medium text-[#1C1C28] mb-[0.8rem]">
+                      Parol<span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="********"
+                        value={formData.password}
+                        onChange={(e) =>
+                          handleChange("password", e.target.value)
+                        }
+                        className="w-full h-[5.6rem] px-[1.6rem] pr-12 rounded-[1.6rem] border border-[#E6E6F0] text-[1.5rem] placeholder:text-[#9A9AAF] outline-none focus:border-[#6C4DFF]"
+                        required
+                      />
+                      <button
+                        type="button"
+                        aria-label={
+                          showPassword
+                            ? "Parolni yashirish"
+                            : "Parolni ko'rsatish"
+                        }
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="absolute inset-y-0 right-4 flex items-center text-[#6C4DFF] hover:text-[#4f46e5]"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="w-2 h-2"
+                        >
+                          {showPassword ? (
+                            <>
+                              <path d="M17.94 17.94A10.97 10.97 0 0 1 12 20c-7 0-10-8-10-8a17.69 17.69 0 0 1 4.06-5.94m3.49-2.1A10.94 10.94 0 0 1 12 4c7 0 10 8 10 8a17.8 17.8 0 0 1-2.16 3.19" />
+                              <line x1="1" y1="1" x2="23" y2="23" />
+                            </>
+                          ) : (
+                            <>
+                              <path d="M1 12s3-8 11-8 11 8 11 8-3 8-11 8-11-8-11-8Z" />
+                              <circle cx="12" cy="12" r="3" />
+                            </>
+                          )}
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
-                {/* SINF + TIL */}
                 <div className="grid grid-cols-2 gap-[2.4rem] mb-[3.2rem]">
-                  <FormInput
-                    label="Sinf"
-                    required
-                    placeholder="10-A"
-                    value={formData.className}
-                    onChange={(e) => handleChange("className", e.target.value)}
-                  />
+                  <div>
+                    <label className="block text-[1.4rem] font-medium text-[#1C1C28] mb-[0.8rem]">
+                      Sinf<span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={formData.className}
+                      onChange={(e) => handleChange("className", e.target.value)}
+                      className="
+                        w-full
+                        h-[5.6rem]
+                        px-[1.6rem]
+                        rounded-[1.6rem]
+                        border border-[#E6E6F0]
+                        text-[1.5rem]
+                        text-[#2f2f4d]
+                        outline-none
+                        focus:border-[#6C4DFF]
+                      "
+                      required
+                    >
+                      <option value="" disabled>
+                        Sinfni tanlang
+                      </option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                    </select>
+                  </div>
 
-                  <FormInput
-                    label="Til"
-                    required
-                    placeholder="uz / ru"
-                    value={formData.language}
-                    onChange={(e) => handleChange("language", e.target.value)}
-                  />
+                  <div>
+                    <label className="block text-[1.4rem] font-medium text-[#1C1C28] mb-[0.8rem]">
+                      Til<span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={formData.language}
+                      onChange={(e) => handleChange("language", e.target.value)}
+                      className="
+                        w-full
+                        h-[5.6rem]
+                        px-[1.6rem]
+                        rounded-[1.6rem]
+                        border border-[#E6E6F0]
+                        text-[1.5rem]
+                        text-[#2f2f4d]
+                        outline-none
+                        focus:border-[#6C4DFF]
+                      "
+                      required
+                    >
+                      <option value="uz">uz</option>
+                      <option value="ru">ru</option>
+                    </select>
+                  </div>
                 </div>
 
                 <button
@@ -193,39 +299,42 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
                   {isLoading ? "Yuborilmoqda..." : "Davom etish"}
                 </button>
               </form>
-            )}
-            {currentStep === 2 && (
-              <form onSubmit={submitOtp} className="flex flex-col items-center">
-                {/* DESCRIPTION */}
-                <p className="text-center text-[#6C6C7A] text-[1.4rem] leading-[2.2rem] mb-[4rem]">
-                  +998 telefon raqamingizga yuborilgan 6 xonali SMS kodni
-                  kiriting.
-                </p>
 
-                {/* INNER OTP CARD */}
-                <div
-                  className="
-        w-[36rem]
-        bg-white
-        border border-[#EEF0FF]
-        rounded-[2.8rem]
-        px-[4rem]
-        pt-[5.2rem]
-        pb-[4rem]
-        flex flex-col items-center
-        gap-[4rem]
-        shadow-[0_30px_60px_-30px_rgba(35,46,120,0.45)]
-      "
-                >
-                  {/* OTP INPUTS */}
-                  <OtpInput value={otp} onChange={setOtp} />
-
-                  {/* BUTTON */}
+              {/* FOOTER */}
+              <div className="text-center mt-[3.2rem]">
+                <p className="text-[#9A9AAF] text-[1.4rem]">
+                  Hisobingiz mavjudmi?{" "}
                   <button
-                    type="submit"
-                    disabled={isVerifying}
-                    className="
-          w-[20rem]
+                    type="button"
+                    onClick={onLoginClick}
+                    className="text-[#6C4DFF] font-medium cursor-pointer hover:underline"
+                  >
+                    Tizimga kirish
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 2 && (
+          <div className="flex justify-center w-[100%]">
+            <div className="flex justify-center">
+              <form
+                onSubmit={submitOtp}
+                className="flex flex-col items-center border-4 border-gray-200 rounded-4xl p-5"
+              >
+                {/* INNER OTP CARD */}
+
+                {/* OTP INPUTS */}
+                <OtpInput value={otp} onChange={setOtp} />
+
+                {/* BUTTON */}
+                <button
+                  type="submit"
+                  disabled={isVerifying}
+                  className="
+          w-[100%]
           h-[5.6rem]
           rounded-[1.8rem]
           text-white
@@ -240,28 +349,13 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
           transition
           disabled:opacity-60
         "
-                  >
-                    {isVerifying ? "Tasdiqlanmoqda..." : "Davom etish"}
-                  </button>
-                </div>
-              </form>
-            )}
-
-            {/* FOOTER */}
-            <div className="text-center mt-[3.2rem]">
-              <p className="text-[#9A9AAF] text-[1.4rem]">
-                Hisobingiz mavjudmi?{" "}
-                <button
-                  type="button"
-                  onClick={onLoginClick}
-                  className="text-[#6C4DFF] font-medium cursor-pointer hover:underline"
                 >
-                  Tizimga kirish
+                  {isVerifying ? "Tasdiqlanmoqda..." : "Tasdiqlash"}
                 </button>
-              </p>
+              </form>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

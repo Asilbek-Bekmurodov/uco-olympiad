@@ -28,6 +28,8 @@ export interface LoginResponse {
   token?: string;
   accessToken?: string;
   jwt?: string;
+  // Some backends return a single role, others an array of role objects
+  roles?: { role: "admin" | "user" | string }[];
   role?: "admin" | "user" | string;
 }
 

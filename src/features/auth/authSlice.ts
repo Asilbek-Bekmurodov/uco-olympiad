@@ -30,12 +30,17 @@ const authSlice = createSlice({
   reducers: {
     setToken: (
       state,
-      action: PayloadAction<{ token: string; role?: "admin" | "user" | string }>,
+      action: PayloadAction<{
+        token: string;
+        role?: "admin" | "user" | string;
+        remember?: boolean;
+      }>,
     ) => {
       state.token = action.payload.token;
       state.role = (action.payload.role as "admin" | "user") ?? "user";
       state.isAuthenticated = true;
-      if (typeof localStorage !== "undefined") {
+      const shouldPersist = action.payload.remember ?? true;
+      if (shouldPersist && typeof localStorage !== "undefined") {
         localStorage.setItem(
           STORAGE_KEY,
           JSON.stringify({
@@ -43,6 +48,8 @@ const authSlice = createSlice({
             role: state.role,
           }),
         );
+      } else if (!shouldPersist && typeof localStorage !== "undefined") {
+        localStorage.removeItem(STORAGE_KEY);
       }
     },
     logout: (state) => {
