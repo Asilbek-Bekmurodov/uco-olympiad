@@ -64,7 +64,10 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
       <div className="flex w-full gap-[20px] r items-center">
         {/* First */}
 
-        <div className="bg-gradient-to-b from-[#8C82FF] to-[#4A3AFF] w-[50%] h-[100vh]"></div>
+        <div
+          className="bg-gradient-to-t from-[#4A3AFF] to-[#8C82FF]
+ w-[50%] h-[100vh]"
+        ></div>
 
         {/* Second  */}
 
