@@ -34,54 +34,42 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
     try {
       const res = await loginUser({
         phoneNumber: credentials.phoneNumber,
-        // Some backends expect `username`, mirror the phone there too
         username: credentials.phoneNumber,
         password: credentials.password,
       }).unwrap();
-      console.log("✅ Login successful:", res);
       const token = res?.token;
       const role = res?.role ?? res?.roles?.[0]?.role;
       if (token) {
         dispatch(setToken({ token, role, remember: credentials.remember }));
-      } else {
-        console.warn("No token found in login response", res);
       }
       onSuccess();
     } catch (error) {
-      console.error("❌ Login error:", error);
+      console.error(error);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-white ">
-      {/* Logo */}
-
-      <div className="flex w-full gap-[20px] r items-center">
-        {/* First */}
-
-<<<<<<< HEAD
-        <div
-          className="bg-gradient-to-t from-[#4A3AFF] to-[#8C82FF]
- w-[50%] h-[100vh]"
-        ></div>
-=======
-        <div className="bg-gradient-to-b from-[#8C82FF] to-[#4A3AFF] w-[50%] h-[100vh] flex items-center justify-center">
+    <div className="min-h-screen flex flex-col bg-white">
+      <div className="flex flex-col md:flex-row w-full md:h-screen">
+        {/* Left Side: Gradient with MagnetLines */}
+        <div className="hidden md:flex w-full md:w-1/2 h-[50vh] md:h-full bg-gradient-to-b from-[#8C82FF] to-[#4A3AFF] items-center justify-center">
           <MagnetLines />
         </div>
->>>>>>> 079936779e8921db79be20d17fd482ae38fc97b9
 
-        {/* Second  */}
+        {/* Right Side: Login Form */}
+        <div className="flex-1 flex flex-col items-center justify-start sm:justify-center min-h-[50vh] md:min-h-full px-4 sm:px-0 py-8 md:py-0 overflow-x-hidden">
+          <div className="w-full flex justify-center sm:justify-start mb-[50px]">
+            <img src={Uco} alt="uco" />
+          </div>
 
-        <div className="">
-          <img src={Uco} alt="uco" className="mb-[50px] mx-auto" />
-
-          <div className="w-[700px] bg-white border border-[#eef0ff] rounded-[2.8rem] shadow-[0_30px_60px_-30px_rgba(35,46,120,0.45)] px-[3.2rem] md:px-[4rem] py-[3.6rem]">
-            <h1 className="text-[2.4rem] font-semibold text-[#24195a] mb-[2.8rem]">
+          <div className="w-full max-w-[95%] sm:max-w-[400px] md:max-w-[700px] bg-white border border-[#eef0ff] rounded-[2.8rem] shadow-[0_30px_60px_-30px_rgba(35,46,120,0.45)] px-[3.2rem] sm:px-[3.2rem] md:px-[4rem] py-[3.6rem] overflow-hidden">
+            <h1 className="text-[2.4rem] font-semibold text-[#24195a] mb-[2.8rem] text-center sm:text-left">
               Tizimga kirish
             </h1>
 
             <form onSubmit={submitLogin} className="flex flex-col gap-[2.4rem]">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-[2rem]">
+                {/* Phone */}
                 <div className="flex flex-col gap-2">
                   <label className="text-[1.5rem] text-[#24195a] font-semibold">
                     Telefon nomer<span className="text-red-500">*</span>
@@ -104,7 +92,7 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
                             : "",
                         )
                       }
-                      className="flex-1 h-full rounded-[1.6rem] text-[1.5rem] text-[#2f2f4d] placeholder:text-[#a3a7c2] focus:outline-none"
+                      className="flex-1 h-full rounded-[1.6rem] text-[1.5rem] text-[#2f2f4d] placeholder:text-[#a3a7c2] focus:outline-none sm:flex-none"
                       required
                     />
                   </div>
@@ -124,6 +112,7 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
                   </div>
                 </div>
 
+                {/* Password */}
                 <div className="flex flex-col gap-2">
                   <label className="text-[1.5rem] text-[#24195a] font-semibold">
                     Parol
@@ -139,11 +128,6 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
                     />
                     <button
                       type="button"
-                      aria-label={
-                        showPassword
-                          ? "Parolni yashirish"
-                          : "Parolni ko'rsatish"
-                      }
                       onClick={() => setShowPassword((prev) => !prev)}
                       className="absolute inset-y-0 right-3 flex items-center text-[#6C4DFF] hover:text-[#4f46e5]"
                     >
@@ -173,7 +157,7 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
                   </div>
                   <button
                     type="button"
-                    className="text-[#4f46e5] text-[1.4rem] font-medium  self-start hover:underline ml-[50px]"
+                    className="text-[#4f46e5] text-[1.4rem] font-medium self-start hover:underline"
                   >
                     Parolni tiklash
                   </button>
@@ -183,22 +167,7 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="
-              w-full
-              h-[5.8rem]
-              rounded-[1.8rem]
-              text-white
-              text-[1.6rem]
-              font-semibold
-              bg-gradient-to-r
-              from-[#6b7bff]
-              to-[#4b32ff]
-              shadow-[0_20px_44px_-18px_rgba(75,59,255,0.65)]
-              hover:opacity-95
-              active:scale-[0.99]
-              transition
-              disabled:opacity-60
-            "
+                className="w-full h-[5.8rem] rounded-[1.8rem] text-white text-[1.6rem] font-semibold bg-gradient-to-r from-[#6b7bff] to-[#4b32ff] shadow-[0_20px_44px_-18px_rgba(75,59,255,0.65)] hover:opacity-95 active:scale-[0.99] transition disabled:opacity-60"
               >
                 {isLoading ? "Yuklanmoqda..." : "Davom etish"}
               </button>
