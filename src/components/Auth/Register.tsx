@@ -224,7 +224,9 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
                     </label>
                     <select
                       value={formData.className}
-                      onChange={(e) => handleChange("className", e.target.value)}
+                      onChange={(e) =>
+                        handleChange("className", e.target.value)
+                      }
                       className="
                         w-full
                         h-[5.6rem]
@@ -241,6 +243,7 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
                       <option value="" disabled>
                         Sinfni tanlang
                       </option>
+                      <option value="3">3</option>
                       <option value="4">4</option>
                       <option value="5">5</option>
                       <option value="6">6</option>
@@ -274,6 +277,7 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
                     >
                       <option value="uz">uz</option>
                       <option value="ru">ru</option>
+                      <option value="en">en</option>
                     </select>
                   </div>
                 </div>

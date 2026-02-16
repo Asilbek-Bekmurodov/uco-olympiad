@@ -44,11 +44,9 @@ export const authApi = createApi({
           url: "/auth/register",
           method: "POST",
           body: {
-            // Backend expects snake-case keys for names
             firstname,
             lastname,
             ...rest,
-            // Some backends expect `username`; mirror phone number to be safe
             username: rest.phoneNumber,
           },
         };

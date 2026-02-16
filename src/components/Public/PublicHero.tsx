@@ -50,10 +50,10 @@ const PublicHero = ({ onLogin, onRegister }: PublicHeroProps) => {
 
             <div className="mt-[3.2rem] flex flex-wrap items-center gap-[1.2rem] text-[1.3rem] text-[#6f6c8f]">
               <span className="rounded-full bg-white/60 px-4 py-2">
-                4–11 sinflar
+                3–11 sinflar
               </span>
               <span className="rounded-full bg-white/60 px-4 py-2">
-                2 til: uz / ru
+                3 til: uz / ru / en
               </span>
               <span className="rounded-full bg-white/60 px-4 py-2">
                 Onlayn saralash + final
@@ -62,7 +62,14 @@ const PublicHero = ({ onLogin, onRegister }: PublicHeroProps) => {
           </div>
         </div>
       </div>
-      <div className="absolute left-77 inset-0 pointer-events-none opacity-100">
+      <div
+        style={{
+          backgroundImage: `url(${Uco})`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center center",
+        }}
+        className="absolute left-77 inset-0  opacity-100"
+      >
         <Antigravity
           count={500}
           magnetRadius={6}
@@ -79,11 +86,6 @@ const PublicHero = ({ onLogin, onRegister }: PublicHeroProps) => {
           pulseSpeed={4}
           particleShape="capsule"
           fieldStrength={10}
-        />
-        <img
-          src={Uco}
-          alt="UCO Icon"
-          className="absolute left-[34%] top-[35%] w-24 h-24"
         />
       </div>
     </section>
