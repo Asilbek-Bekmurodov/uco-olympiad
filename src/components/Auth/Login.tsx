@@ -4,10 +4,8 @@ import { useLoginUserMutation } from "../../services/authApi";
 import { useAppDispatch } from "../../app/hooks";
 import { setToken } from "../../features/auth/authSlice";
 import Uco from "../../assets/Uco icon.svg";
-import {
-  formatUzPhoneLocal,
-  normalizeUzPhone,
-} from "../../utils/phone";
+import { formatUzPhoneLocal, normalizeUzPhone } from "../../utils/phone";
+import MagnetLines from "../MagnetLine/MagnetLines";
 
 interface LoginProps {
   onSuccess: () => void;
@@ -61,7 +59,9 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
       <div className="flex w-full gap-[20px] r items-center">
         {/* First */}
 
-        <div className="bg-gradient-to-b from-[#8C82FF] to-[#4A3AFF] w-[50%] h-[100vh]"></div>
+        <div className="bg-gradient-to-b from-[#8C82FF] to-[#4A3AFF] w-[50%] h-[100vh] flex items-center justify-center">
+          <MagnetLines />
+        </div>
 
         {/* Second  */}
 
@@ -132,7 +132,11 @@ const Login = ({ onSuccess, onBackToRegister }: LoginProps) => {
                     />
                     <button
                       type="button"
-                      aria-label={showPassword ? "Parolni yashirish" : "Parolni ko'rsatish"}
+                      aria-label={
+                        showPassword
+                          ? "Parolni yashirish"
+                          : "Parolni ko'rsatish"
+                      }
                       onClick={() => setShowPassword((prev) => !prev)}
                       className="absolute inset-y-0 right-3 flex items-center text-[#6C4DFF] hover:text-[#4f46e5]"
                     >
