@@ -9,7 +9,7 @@ import Support from "../Support/Support";
 import FormInput from "../FormInput/FormInput";
 import Uco from "../../assets/Uco icon.svg";
 import { formatUzPhoneLocal, normalizeUzPhone } from "../../utils/phone";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 type RegisterFormKey = keyof RegisterFormData;
 
