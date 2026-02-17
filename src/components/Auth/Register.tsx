@@ -9,6 +9,7 @@ import Support from "../Support/Support";
 import FormInput from "../FormInput/FormInput";
 import Uco from "../../assets/Uco icon.svg";
 import { formatUzPhoneLocal, normalizeUzPhone } from "../../utils/phone";
+import { useNavigate } from "react-router-dom";
 
 type RegisterFormKey = keyof RegisterFormData;
 
@@ -28,10 +29,11 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
   });
 
   const [otp, setOtp] = useState("");
-  const [currentStep, setCurrentStep] = useState<1 | 2>(2);
+  const [currentStep, setCurrentStep] = useState<1 | 2>(1);
   const [showPassword, setShowPassword] = useState(false);
   const [register, { isLoading }] = useRegisterMutation();
   const [verify, { isLoading: isVerifying }] = useVerifyMutation();
+  // const navigate = useNavigate();
 
   const handleChange = (key: RegisterFormKey, value: string) => {
     setFormData((prev) => ({
@@ -73,6 +75,7 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
               className="mx-auto md:mx-0 mb-[5.6rem] w-[14rem]"
               src={Uco}
               alt="Logo"
+              // onClick={() => navigate("/")}
             />
             <div className="stage-wrapper flex flex-col gap-1.5">
               <StepNumber
