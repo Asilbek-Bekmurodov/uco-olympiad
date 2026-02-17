@@ -48,6 +48,7 @@ const FormInput: React.FC<FormInputProps> = ({
           outline-none
           focus:border-[#6C4DFF]
         "
+        required
       />
     </div>
   );

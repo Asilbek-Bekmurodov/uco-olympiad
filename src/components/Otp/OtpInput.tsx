@@ -69,7 +69,7 @@ const OtpInput = ({ length = 6, value, onChange }: OtpInputProps) => {
           onChange={(e) => handleChange(e.target.value, idx)}
           onKeyDown={(e) => handleKeyDown(e, idx)}
           onPaste={handlePaste}
-          className="w-7 h-7 rounded-[1.4rem] mb-4 border border-[#e7e9ff] bg-white text-center text-4xl font-bold text-[#3a3a4d] shadow-[0_10px_26px_-18px_rgba(66,71,112,0.38)] focus:outline-none focus:border-[#6C4DFF] focus:shadow-[0_12px_30px_-18px_rgba(108,77,255,0.5)] transition"
+          className="w-3 h-3  lg:w-7 lg:h-7 rounded-[0.5rem] lg:rounded-[1.4rem] mb-4 border border-[#e7e9ff] bg-white text-center text-2xl  lg:text-4xl font-bold text-[#3a3a4d] shadow-[0_10px_26px_-18px_rgba(66,71,112,0.38)] focus:outline-none focus:border-[#6C4DFF] focus:shadow-[0_12px_30px_-18px_rgba(108,77,255,0.5)] transition"
         />
       ))}
     </div>
