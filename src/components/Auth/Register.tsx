@@ -202,7 +202,7 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
                     <option value="" disabled>
                       Sinfni tanlang
                     </option>
-                    {[...Array(11).keys()].map((i) =>
+                    {[...Array(12).keys()].map((i) =>
                       i >= 3 ? (
                         <option key={i} value={i}>
                           {i}
