@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { RootState } from "../app/store";
+import type { RootState } from "../store";
 import { logout } from "../features/auth/authSlice";
 import type {
   RegisterFormData,
@@ -9,10 +9,8 @@ import type {
 } from "../features/auth/types";
 
 const baseQuery = fetchBaseQuery({
-  // VITE_API_BASE_URL should include the API prefix, e.g. http://56.228.75.226:8080/api
   baseUrl: import.meta.env.VITE_API_BASE_URL as string,
   prepareHeaders: (headers, { getState, endpoint }) => {
-    // Public auth endpoints must not send stale Authorization headers
     if (endpoint && ["register", "verify", "loginUser"].includes(endpoint)) {
       return headers;
     }
@@ -61,7 +59,7 @@ export const authApi = createApi({
     }),
     loginUser: builder.mutation<LoginResponse, LoginPayload>({
       query: (body) => ({
-        url: "/auth/loginuser",
+        url: "/auth/login",
         method: "POST",
         body,
       }),

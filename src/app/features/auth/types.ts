@@ -1,7 +1,7 @@
 export interface AuthState {
   token: string | null;
   isAuthenticated: boolean;
-  role: "admin" | "user" | null;
+  role: string | null;
 }
 
 export interface RegisterFormData {
@@ -25,6 +25,9 @@ export interface LoginPayload {
 }
 
 export interface LoginResponse {
+  data?: string;
+  message?: string;
+  success?: boolean;
   token?: string;
   accessToken?: string;
   jwt?: string;

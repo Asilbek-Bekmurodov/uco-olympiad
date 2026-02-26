@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { AuthState } from "./types";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { normalizeRole } from "../../../utils/roles";
 
 const STORAGE_KEY = "auth_state";
 
@@ -15,7 +16,7 @@ const loadStoredAuth = (): AuthState => {
     return {
       token: parsed.token ?? null,
       isAuthenticated: Boolean(parsed.token),
-      role: parsed.role ?? null,
+      role: normalizeRole(parsed.role) ?? null,
     };
   } catch {
     return { token: null, isAuthenticated: false, role: null };
@@ -37,7 +38,7 @@ const authSlice = createSlice({
       }>,
     ) => {
       state.token = action.payload.token;
-      state.role = (action.payload.role as "admin" | "user") ?? "user";
+      state.role = normalizeRole(action.payload.role) ?? "ROLE_USER";
       state.isAuthenticated = true;
       const shouldPersist = action.payload.remember ?? true;
       if (shouldPersist && typeof localStorage !== "undefined") {

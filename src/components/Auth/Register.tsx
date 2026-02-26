@@ -1,7 +1,10 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { useRegisterMutation, useVerifyMutation } from "../../services/authApi";
-import type { RegisterFormData } from "../../features/auth/types";
+import {
+  useRegisterMutation,
+  useVerifyMutation,
+} from "../../app/services/authApi";
+import type { RegisterFormData } from "../../app/features/auth/types";
 import OtpInput from "../Otp/OtpInput";
 import StepBar from "../StepBar/StepBar";
 import StepNumber from "../StepNumber/StepNumber";
@@ -9,16 +12,12 @@ import Support from "../Support/Support";
 import FormInput from "../FormInput/FormInput";
 import Uco from "../../assets/Uco icon.svg";
 import { formatUzPhoneLocal, normalizeUzPhone } from "../../utils/phone";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type RegisterFormKey = keyof RegisterFormData;
 
-interface RegisterProps {
-  onVerifySuccess?: () => void;
-  onLoginClick?: () => void;
-}
-
-const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
+const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<RegisterFormData>({
     firstname: "",
     lastname: "",
@@ -33,8 +32,6 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [register, { isLoading }] = useRegisterMutation();
   const [verify, { isLoading: isVerifying }] = useVerifyMutation();
-  // const navigate = useNavigate();
-
   const handleChange = (key: RegisterFormKey, value: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -59,7 +56,7 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
         phoneNumber: formData.phoneNumber,
         smsCode: otp,
       }).unwrap();
-      onVerifySuccess?.();
+      navigate("/login");
     } catch (error) {
       console.error("OTP error:", error);
     }
@@ -75,7 +72,7 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
               className="mx-auto md:mx-0 mb-[5.6rem] w-[14rem]"
               src={Uco}
               alt="Logo"
-              // onClick={() => navigate("/")}
+              onClick={() => navigate("/")}
             />
             <div className="stage-wrapper flex flex-col gap-1.5">
               <StepNumber
@@ -241,7 +238,7 @@ const Register = ({ onVerifySuccess, onLoginClick }: RegisterProps) => {
                   Hisobingiz mavjudmi?{" "}
                   <button
                     type="button"
-                    onClick={onLoginClick}
+                    onClick={() => navigate("/login")}
                     className="text-[#6C4DFF] font-medium cursor-pointer hover:underline"
                   >
                     Tizimga kirish

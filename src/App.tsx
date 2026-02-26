@@ -1,72 +1,62 @@
-import { useEffect, useState } from "react";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import Home from "./components/Home/Home";
 import PublicHero from "./components/Public/PublicHero";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { useAppSelector } from "./app/hooks";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Users from "./components/Dashboard/Users/Users";
+import { defaultRouteForRole, normalizeRole } from "./utils/roles";
+import Exams from "./components/Dashboard/Exams/Exams";
+import ExamDetails from "./components/Dashboard/Exams/ExamDetails";
+import ExamPage from "./components/Home/ExamPage";
+import ResultScreen from "./components/Home/ResultScreen";
 
 const App = () => {
-  type Screen = "public" | "register" | "login" | "home";
-
-  const pathToScreen = (path: string): Screen => {
-    if (path.startsWith("/login")) return "login";
-    if (path.startsWith("/register")) return "register";
-    if (path.startsWith("/home")) return "home";
-    return "public";
-  };
-
-  const screenToPath = (screen: Screen) => {
-    if (screen === "login") return "/login";
-    if (screen === "register") return "/register";
-    if (screen === "home") return "/home";
-    return "/";
-  };
-
-  const [screen, setScreen] = useState<Screen>(
-    pathToScreen(window.location.pathname),
-  );
-  const { isAuthenticated } = useAppSelector((s) => s.auth);
-
-  useEffect(() => {
-    const onPopState = () => setScreen(pathToScreen(window.location.pathname));
-    window.addEventListener("popstate", onPopState);
-    return () => window.removeEventListener("popstate", onPopState);
-  }, []);
-
-  const navigate = (next: Screen) => {
-    setScreen(next);
-    window.history.pushState({}, "", screenToPath(next));
-  };
+  const navigate = useNavigate();
+  const { isAuthenticated, role } = useAppSelector((s) => s.auth);
+  const normalizedRole = normalizeRole(role);
+  const isReady = isAuthenticated && Boolean(normalizedRole);
+  const defaultRoute = defaultRouteForRole(normalizedRole);
 
   return (
     <div className="h-screen">
-      {screen === "public" && (
-        <PublicHero
-          onLogin={() => navigate("login")}
-          onRegister={() => navigate("register")}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            isReady ? (
+              <Navigate to={defaultRoute} replace />
+            ) : (
+              <PublicHero
+                onLogin={() => navigate("/login")}
+                onRegister={() => navigate("/register")}
+              />
+            )
+          }
         />
-      )}
-      {screen === "home" &&
-        (isAuthenticated ? (
-          <Home onLogout={() => navigate("login")} />
-        ) : (
-          <Login
-            onSuccess={() => navigate("home")}
-            onBackToRegister={() => navigate("register")}
-          />
-        ))}
-      {screen === "login" && (
-        <Login
-          onSuccess={() => navigate("home")}
-          onBackToRegister={() => navigate("register")}
+        <Route
+          path="/login"
+          element={isReady ? <Navigate to={defaultRoute} replace /> : <Login />}
         />
-      )}
-      {screen === "register" && (
-        <Register
-          onVerifySuccess={() => navigate("login")}
-          onLoginClick={() => navigate("login")}
+        <Route
+          path="/register"
+          element={
+            isReady ? <Navigate to={defaultRoute} replace /> : <Register />
+          }
         />
-      )}
+        <Route path="/home" element={<Home />}>
+          <Route path="my-exam/:testId" element={<ExamPage />} />
+          <Route path="result" element={<ResultScreen />} />
+        </Route>
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route index element={<Navigate to="users" replace />} />
+          <Route path="users" element={<Users />} />
+          <Route path="exams" element={<Exams />} />
+          <Route path="exams/:id" element={<ExamDetails />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
   );
 };
