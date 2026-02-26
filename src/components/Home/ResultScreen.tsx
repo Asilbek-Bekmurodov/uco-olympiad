@@ -48,9 +48,7 @@ const ResultScreen = () => {
         <div className={styles.metrics}>
           <div className={styles.metricItem}>
             <span className={styles.metricLabel}>Ball</span>
-            <span className={styles.metricValue}>
-              {Math.round(Number(scoreLine))}
-            </span>
+            <span className={styles.metricValue}>{scoreLine}</span>
           </div>
         </div>
         <button
