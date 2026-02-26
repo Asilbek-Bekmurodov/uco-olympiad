@@ -8,6 +8,8 @@ import Uco from "../../assets/Uco icon.svg";
 import { formatUzPhoneLocal, normalizeUzPhone } from "../../utils/phone";
 import MagnetLines from "../MagnetLine/MagnetLines";
 import { defaultRouteForRole, normalizeRole } from "../../utils/roles";
+import { FaTelegramPlane } from "react-icons/fa";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -30,24 +32,33 @@ const Login = () => {
   const submitLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const isAdminLogin =
-        credentials.phoneNumber === "+998901234567" &&
-        credentials.password === "admin123";
-      const rawPhone = isAdminLogin
-        ? credentials.phoneNumber.replace(/^\+/, "")
-        : credentials.phoneNumber;
+      let rawPhone = credentials.phoneNumber;
+      if (rawPhone === "+998901234567") {
+        rawPhone = credentials.phoneNumber.replace(/^\+/, "");
+      }
       const res = await loginUser({
         phoneNumber: rawPhone,
         username: rawPhone,
         password: credentials.password,
       }).unwrap();
-      console.log(res);
+      const token =
+        res.data ?? res.token ?? res.accessToken ?? res.jwt ?? undefined;
+      if (!token) {
+        throw new Error("Token topilmadi");
+      }
+      const decoded = jwtDecode<{
+        roles?: string[];
+        role?: string;
+        authorities?: string[];
+      }>(token);
+      const rawRole =
+        decoded.roles?.[0] ?? decoded.role ?? decoded.authorities?.[0];
 
-      const role = normalizeRole(isAdminLogin ? "ROLE_ADMIN" : "ROLE_USER");
-      if (res?.data) {
+      const role = normalizeRole(rawRole ?? "ROLE_USER");
+      if (token) {
         dispatch(
           setToken({
-            token: res.data,
+            token,
             role: role ?? undefined,
             remember: credentials.remember,
           }),
@@ -96,14 +107,20 @@ const Login = () => {
                       maxLength={18}
                       placeholder="(91) 457-26-14"
                       value={formatUzPhoneLocal(credentials.phoneNumber)}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const rawDigits = e.target.value.replace(/\D/g, "");
+                        const normalized = normalizeUzPhone(e.target.value);
+                        const shouldStoreWithoutPlus =
+                          rawDigits.startsWith("998") && rawDigits.length >= 12;
                         handleChange(
                           "phoneNumber",
-                          normalizeUzPhone(e.target.value)
-                            ? `+998${normalizeUzPhone(e.target.value)}`
+                          normalized
+                            ? shouldStoreWithoutPlus
+                              ? normalized
+                              : `+998${normalized}`
                             : "",
-                        )
-                      }
+                        );
+                      }}
                       className="flex-1 h-full rounded-[1.6rem] text-[1.5rem] text-[#2f2f4d] placeholder:text-[#a3a7c2] focus:outline-none sm:flex-none"
                       required
                     />
@@ -196,6 +213,20 @@ const Login = () => {
                 >
                   Ro&apos;yxatdan o&apos;tish
                 </button>
+              </div>
+              <div className="flex flex-col items-center gap-2 pt-2 text-[1.3rem] text-[#7a7fa8]">
+                <span className="font-semibold text-[#3b3f66]">
+                  Texnik yordam
+                </span>
+                <a
+                  href="https://t.me/iDekUz"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-[#dbe2ff] bg-[#eef2ff] px-4 py-2 font-semibold text-[#2b2f55] hover:opacity-90"
+                >
+                  <FaTelegramPlane className="text-[#229ed9]" />
+                  @iDekUz
+                </a>
               </div>
             </form>
           </div>

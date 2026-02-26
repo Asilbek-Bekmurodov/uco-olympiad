@@ -3,6 +3,7 @@ import type { SubmitTestResult } from "../../app/services/testApi";
 import styles from "./ResultScreen.module.css";
 import Badge from "../../assets/result-badge.svg";
 import { ConfettiSideCannons } from "../Confetti/Confetti";
+import { FaTelegramPlane } from "react-icons/fa";
 
 const ResultScreen = () => {
   const location = useLocation();
@@ -56,6 +57,15 @@ const ResultScreen = () => {
         >
           Back to Home
         </button>
+        <a
+          className={styles.telegramLink}
+          href="https://t.me/uco_olympiad"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <FaTelegramPlane className={styles.telegramIcon} />
+          Bizning Telegram kanal
+        </a>
       </div>
     </div>
   );

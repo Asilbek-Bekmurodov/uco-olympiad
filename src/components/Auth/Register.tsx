@@ -13,6 +13,7 @@ import FormInput from "../FormInput/FormInput";
 import Uco from "../../assets/Uco icon.svg";
 import { formatUzPhoneLocal, normalizeUzPhone } from "../../utils/phone";
 import { useNavigate } from "react-router-dom";
+import { FaTelegramPlane } from "react-icons/fa";
 
 type RegisterFormKey = keyof RegisterFormData;
 
@@ -245,6 +246,20 @@ const Register = () => {
                   </button>
                 </p>
               </div>
+              <div className="mt-[2.4rem] flex flex-col items-center gap-2 text-[1.3rem] text-[#7a7fa8]">
+                <span className="font-semibold text-[#3b3f66]">
+                  Texnik yordam
+                </span>
+                <a
+                  href="https://t.me/iDekUz"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-[#dbe2ff] bg-[#eef2ff] px-4 py-2 font-semibold text-[#2b2f55] hover:opacity-90"
+                >
+                  <FaTelegramPlane className="text-[#229ed9]" />
+                  @iDekUz
+                </a>
+              </div>
             </form>
           </div>
         )}
@@ -263,6 +278,7 @@ const Register = () => {
               >
                 {isVerifying ? "Tasdiqlanmoqda..." : "Tasdiqlash"}
               </button>
+             
             </form>
           </div>
         )}

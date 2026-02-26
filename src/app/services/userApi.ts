@@ -63,7 +63,7 @@ export const userApi = createApi({
     if (result.error && result.error.status === 401) {
       api.dispatch(logout());
       if (typeof window !== "undefined") {
-        window.location.href = "/login";
+        window.dispatchEvent(new Event("auth:logout"));
       }
     }
     return result;

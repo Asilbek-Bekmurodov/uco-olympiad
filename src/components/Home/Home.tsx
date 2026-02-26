@@ -15,7 +15,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const role = useSelector((s: RootState) => s.auth.role);
-  const token = useSelector((s: RootState) => s.auth.token);
   const { data } = useGetCountdownQuery(undefined, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
