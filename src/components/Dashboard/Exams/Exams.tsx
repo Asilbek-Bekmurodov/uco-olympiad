@@ -162,7 +162,8 @@ const Exams = () => {
                 <span className={styles.listCell}>
                   {(() => {
                     const isVisible =
-                      exam.id != null && visibilityOverrides[exam.id] !== undefined
+                      exam.id != null &&
+                      visibilityOverrides[exam.id] !== undefined
                         ? visibilityOverrides[exam.id]
                         : Boolean(exam.visible);
                     return (
@@ -315,9 +316,11 @@ const Exams = () => {
                     required
                   >
                     <option value="">Tanlang</option>
-                    <option value="frontend">FrontEnd</option>
-                    <option value="java">Java Backend</option>
-                    <option value="backend">python backend</option>
+                    <option value="javascript">Javascript/sql</option>
+                    <option value="java">Java </option>
+                    <option value="python">Python </option>
+                    <option value="scratch">Scratch</option>
+                    <option value="C++">C++ </option>
                   </select>
                 </div>
 
