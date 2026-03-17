@@ -45,7 +45,6 @@ export const authApi = createApi({
             firstname,
             lastname,
             ...rest,
-            username: rest.phoneNumber,
           },
         };
       },

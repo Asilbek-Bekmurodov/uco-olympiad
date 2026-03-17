@@ -38,7 +38,7 @@ const Login = () => {
       }
       const res = await loginUser({
         phoneNumber: rawPhone,
-        username: rawPhone,
+        // username: rawPhone,
         password: credentials.password,
       }).unwrap();
       const token =
