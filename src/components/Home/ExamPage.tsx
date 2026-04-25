@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useGetTestQuestionsQuery } from "../../app/services/testApi";
+import { useGetTestQuestionsQuery, type SubmitTestResult } from "../../app/services/testApi";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setQuestions } from "../../app/features/test/testSlice";
 import Pagination from "./ExamPage/Pagination";
@@ -8,6 +8,7 @@ import Title from "./ExamPage/Title";
 import QuestionImage from "./ExamPage/QuestionImage";
 import Options from "./ExamPage/Options";
 import Footer from "./ExamPage/Footer";
+import PracticalExam from "./PracticalExam";
 import styles from "./ExamPage/ExamPage.module.css";
 
 const ExamPage = () => {
@@ -15,6 +16,7 @@ const ExamPage = () => {
   const numericTestId = testId ? Number(testId) : NaN;
   const dispatch = useAppDispatch();
   const questions = useAppSelector((s) => s.test.questions);
+  const [testResult, setTestResult] = useState<SubmitTestResult | null>(null);
 
   const { data, isFetching } = useGetTestQuestionsQuery(numericTestId, {
     skip: Number.isNaN(numericTestId),
@@ -23,9 +25,12 @@ const ExamPage = () => {
   useEffect(() => {
     if (data) {
       dispatch(setQuestions(data));
-      console.log("Test questions:", data);
     }
   }, [data, dispatch]);
+
+  if (testResult) {
+    return <PracticalExam testId={numericTestId} testResult={testResult} />;
+  }
 
   if (isFetching && !questions.length) {
     return <div className={styles.loading}>Yuklanmoqda...</div>;
@@ -39,7 +44,7 @@ const ExamPage = () => {
         <QuestionImage />
         <Options />
       </div>
-      <Footer />
+      <Footer onTestSubmit={setTestResult} />
     </div>
   );
 };

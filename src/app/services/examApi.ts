@@ -36,6 +36,29 @@ export interface CreateExamResponse {
   maxScore?: number;
   passingScore?: number;
   questions?: ExamQuestion[];
+  practicalWorks?: PracticalWorkResponse[];
+}
+
+export interface PracticalWorkRequest {
+  questionText: string;
+  maxScore: number;
+  attachmentUrl?: string;
+}
+
+export interface PracticalWorkSubmission {
+  id: number;
+  solutionText: string;
+  status: string;
+  score: number;
+  feedback: string;
+}
+
+export interface PracticalWorkResponse {
+  id: number;
+  questionText: string;
+  maxScore: number;
+  attachmentUrl: string;
+  submissions: PracticalWorkSubmission[];
 }
 
 const baseQuery = fetchBaseQuery({
@@ -138,6 +161,45 @@ export const examApi = createApi({
       }),
       invalidatesTags: ["Questions"],
     }),
+    editPracticalWork: builder.mutation<
+      PracticalWorkResponse,
+      { workId: number; body: PracticalWorkRequest; file?: File }
+    >({
+      query: ({ workId, body, file }) => {
+        const formData = new FormData();
+        formData.append("work", JSON.stringify({ questionText: body.questionText, maxScore: body.maxScore }));
+        if (file) formData.append("file", file);
+        return {
+          url: `/admin/practical-work/${workId}`,
+          method: "PUT",
+          body: formData,
+        };
+      },
+      invalidatesTags: ["Exams"],
+    }),
+    deletePracticalWork: builder.mutation<void, number>({
+      query: (workId) => ({
+        url: `/admin/practical-work/${workId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Exams"],
+    }),
+    addPracticalWork: builder.mutation<
+      PracticalWorkResponse,
+      { examId: number; body: PracticalWorkRequest; file?: File }
+    >({
+      query: ({ examId, body, file }) => {
+        const formData = new FormData();
+        formData.append("work", JSON.stringify({ questionText: body.questionText, maxScore: body.maxScore }));
+        if (file) formData.append("file", file);
+        return {
+          url: `/admin/exams/${examId}/practical-work`,
+          method: "POST",
+          body: formData,
+        };
+      },
+      invalidatesTags: ["Exams"],
+    }),
   }),
 });
 
@@ -151,4 +213,7 @@ export const {
   useToggleExamVisibilityMutation,
   useImportQuestionImageMutation,
   useDeleteQuestionMutation,
+  useAddPracticalWorkMutation,
+  useEditPracticalWorkMutation,
+  useDeletePracticalWorkMutation,
 } = examApi;

@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { selectOption } from "../../../app/features/test/testSlice";
+import { selectOption, nextQuestion } from "../../../app/features/test/testSlice";
 import styles from "./ExamPage.module.css";
 
 const Options = () => {
@@ -12,6 +12,14 @@ const Options = () => {
 
   const current = questions[currentIndex];
   const selectedIndex = answers[current.id];
+  const isLast = currentIndex === questions.length - 1;
+
+  const handleSelect = (idx: number) => {
+    dispatch(selectOption({ questionId: current.id, optionIndex: idx }));
+    if (!isLast) {
+      setTimeout(() => dispatch(nextQuestion()), 300);
+    }
+  };
 
   return (
     <div className={styles.options}>
@@ -22,14 +30,8 @@ const Options = () => {
           <button
             key={`${current.id}-${idx}`}
             type="button"
-            className={`${styles.option} ${
-              isSelected ? styles.optionActive : ""
-            }`}
-            onClick={() =>
-              dispatch(
-                selectOption({ questionId: current.id, optionIndex: idx }),
-              )
-            }
+            className={`${styles.option} ${isSelected ? styles.optionActive : ""}`}
+            onClick={() => handleSelect(idx)}
           >
             <span className={styles.optionText}>{label}</span>
             <span className={styles.optionIndex}>{idx + 1}</span>

@@ -49,6 +49,18 @@ export interface SubmitTestResult {
   maxPossibleScore: number;
   passed: boolean;
 }
+
+export interface StudentPracticalWork {
+  id: number;
+  questionText: string;
+  maxScore: number;
+  attachmentUrl?: string | null;
+}
+
+export interface PracticalWorkSolution {
+  practicalWorkId: number;
+  solutionText: string;
+}
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_BASE_URL as string,
   prepareHeaders: (headers, { getState }) => {
@@ -109,6 +121,16 @@ export const testApi = createApi({
         body,
       }),
     }),
+    getPracticalWorks: builder.query<StudentPracticalWork[], number>({
+      query: (testId) => `/tests/${testId}/practical-work`,
+    }),
+    submitPracticalWork: builder.mutation<void, PracticalWorkSolution[]>({
+      query: (body) => ({
+        url: `/practical-work/submit`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -118,4 +140,6 @@ export const {
   useGetTestQuestionsQuery,
   useGetTestTimerQuery,
   useSubmitTestAnswersMutation,
+  useGetPracticalWorksQuery,
+  useSubmitPracticalWorkMutation,
 } = testApi;

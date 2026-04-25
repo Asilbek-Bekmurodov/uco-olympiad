@@ -1,0 +1,351 @@
+.wrapper {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(30, 30, 60, 0.08);
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1c1c4a;
+  margin: 0;
+}
+
+.count {
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eef0ff;
+  color: #4b32ff;
+  font-weight: 600;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  border: 1px solid #eef0fa;
+  border-radius: 16px;
+  padding: 14px 16px;
+  background: #fafbff;
+}
+
+.cardTop {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: #eef0ff;
+  color: #4f46e5;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.questionText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1c1c4a;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.cardBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scoreBadge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #f1f6ff;
+  color: #3454d1;
+}
+
+.attachLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #7c819d;
+  text-decoration: none;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid #e6e8f0;
+  transition: 0.15s ease;
+}
+
+.attachLink:hover {
+  color: #4f46e5;
+  border-color: #c7d2fe;
+  background: #f5f3ff;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+}
+
+.editButton {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid #e6e8f0;
+  background: #ffffff;
+  color: #4f46e5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.editButton:hover {
+  background: #eef0ff;
+  border-color: #c7d2fe;
+}
+
+.deleteButton {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid #e6e8f0;
+  background: #ffffff;
+  color: #ef4444;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.deleteButton:hover {
+  background: #fff1f2;
+  border-color: #fecdd3;
+}
+
+.editButton:disabled,
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Edit modal */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+}
+
+.modal {
+  width: min(500px, 92vw);
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px 22px 22px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modalTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1c1c4a;
+  margin: 0;
+}
+
+.closeButton {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid #eef0fa;
+  background: #f7f8fc;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #7c819d;
+  transition: 0.15s ease;
+}
+
+.closeButton:hover {
+  background: #eef0ff;
+  color: #4f46e5;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.formRow {
+  display: flex;
+  gap: 14px;
+}
+
+.formLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #3c3f58;
+}
+
+.required {
+  color: #e53e3e;
+}
+
+.optional {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.formInput {
+  padding: 9px 12px;
+  border: 1px solid #e6e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #2f2f4d;
+  background: #fafbff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.formInput:focus {
+  border-color: #a5b4fc;
+  background: #fff;
+}
+
+.formTextarea {
+  padding: 10px 12px;
+  border: 1px solid #e6e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #2f2f4d;
+  background: #fafbff;
+  outline: none;
+  resize: vertical;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.formTextarea:focus {
+  border-color: #a5b4fc;
+  background: #fff;
+}
+
+.fileInput {
+  display: none;
+}
+
+.filePickerLabel {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 12px;
+  border: 1px solid #e6e8f0;
+  border-radius: 10px;
+  background: #fafbff;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.filePickerLabel:hover {
+  border-color: #a5b4fc;
+  background: #fff;
+}
+
+.filePickerText {
+  font-size: 13px;
+  color: #7c819d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.cancelButton {
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: 1px solid #e6e8f0;
+  background: #f7f8fc;
+  color: #3c3f58;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.cancelButton:hover {
+  background: #eef0ff;
+  border-color: #c7d2fe;
+}
+
+.saveButton {
+  padding: 9px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #4f46e5;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.saveButton:hover {
+  background: #443bd6;
+}
+
+.saveButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

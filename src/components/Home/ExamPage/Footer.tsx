@@ -1,23 +1,25 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { nextQuestion, prevQuestion } from "../../../app/features/test/testSlice";
 import {
   useGetTestTimerQuery,
   useSubmitTestAnswersMutation,
+  type SubmitTestResult,
 } from "../../../app/services/testApi";
 import styles from "./ExamPage.module.css";
 
 const formatTime = (value: number) => value.toString().padStart(2, "0");
 
-const Footer = () => {
+type Props = { onTestSubmit: (result: SubmitTestResult) => void };
+
+const Footer = ({ onTestSubmit }: Props) => {
   const dispatch = useAppDispatch();
   const questions = useAppSelector((s) => s.test.questions);
   const currentIndex = useAppSelector((s) => s.test.currentIndex);
   const answers = useAppSelector((s) => s.test.answers);
   const { testId } = useParams();
   const numericTestId = testId ? Number(testId) : NaN;
-  const navigate = useNavigate();
   const [submitAnswers, { isLoading: isSubmitting }] =
     useSubmitTestAnswersMutation();
 
@@ -51,7 +53,10 @@ const Footer = () => {
   const isLast = currentIndex === questions.length - 1;
   const allAnswered =
     questions.length > 0 &&
-    questions.every((q) => (answers[q.id] ?? -1) >= 0);
+    questions.every((q) => {
+      const ans = answers[q.id];
+      return typeof ans === "number" && ans >= 0;
+    });
 
   const handleFinish = async () => {
     if (Number.isNaN(numericTestId) || !allAnswered) return;
@@ -59,7 +64,7 @@ const Footer = () => {
       testId: numericTestId,
       body: answers,
     }).unwrap();
-    navigate("/home/result", { state: result });
+    onTestSubmit(result);
   };
 
   return (
@@ -74,7 +79,7 @@ const Footer = () => {
           onClick={() => dispatch(prevQuestion())}
           disabled={isFirst}
         >
-          Back
+          Orqaga
         </button>
         <button
           type="button"
@@ -82,7 +87,7 @@ const Footer = () => {
           onClick={() => dispatch(nextQuestion())}
           disabled={isLast}
         >
-          Next
+          Keyingi
         </button>
         <button
           type="button"
@@ -92,7 +97,7 @@ const Footer = () => {
           onClick={handleFinish}
           disabled={!allAnswered || isSubmitting}
         >
-          {isSubmitting ? "Submitting..." : "Finish"}
+          {isSubmitting ? "Yuborilmoqda..." : "Practical examga o'tish"}
         </button>
       </div>
     </div>
