@@ -137,6 +137,8 @@ const Exams = () => {
           <div>Sinf</div>
           <div>Til</div>
           <div>Davomiyligi</div>
+          <div>Max ball</div>
+          <div>O'tish balli</div>
           <div>Ko'rinish</div>
           <div className={styles.actionsHeader}>Amallar</div>
         </div>
@@ -159,6 +161,8 @@ const Exams = () => {
                 <span className={styles.listCell}>
                   {exam.durationMinutes} min
                 </span>
+                <span className={styles.listCell}>{exam.maxScore ?? "-"}</span>
+                <span className={styles.listCell}>{exam.passingScore ?? "-"}</span>
                 <span className={styles.listCell}>
                   {(() => {
                     const isVisible =

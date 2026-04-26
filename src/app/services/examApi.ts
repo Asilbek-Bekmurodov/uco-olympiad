@@ -53,6 +53,21 @@ export interface PracticalWorkSubmission {
   feedback: string;
 }
 
+export interface ExamSubmission {
+  submissionId: number;
+  solutionText: string;
+  status: string;
+  score: number | null;
+  feedback: string | null;
+  practicalWorkId: number;
+  questionText: string;
+  maxScore: number;
+  userId: number;
+  userFirstName: string;
+  userLastName: string;
+  userClassName: string;
+}
+
 export interface PracticalWorkResponse {
   id: number;
   questionText: string;
@@ -84,7 +99,7 @@ export const examApi = createApi({
     }
     return result;
   },
-  tagTypes: ["Exams", "Questions"],
+  tagTypes: ["Exams", "Questions", "Submissions"],
   endpoints: (builder) => ({
     createExam: builder.mutation<CreateExamResponse, CreateExamRequest>({
       query: (body) => ({
@@ -200,6 +215,23 @@ export const examApi = createApi({
       },
       invalidatesTags: ["Exams"],
     }),
+    getSubmissionsByExamId: builder.query<ExamSubmission[], number>({
+      query: (examId) => ({
+        url: `/admin/submissions/exam/${examId}`,
+      }),
+      providesTags: ["Submissions"],
+    }),
+    gradeSubmission: builder.mutation<
+      void,
+      { submissionId: number; score: number; feedback?: string }
+    >({
+      query: ({ submissionId, score, feedback }) => ({
+        url: `/admin/submissions/${submissionId}/grade`,
+        method: "PUT",
+        body: { score, feedback },
+      }),
+      invalidatesTags: ["Submissions"],
+    }),
   }),
 });
 
@@ -216,4 +248,6 @@ export const {
   useAddPracticalWorkMutation,
   useEditPracticalWorkMutation,
   useDeletePracticalWorkMutation,
+  useGetSubmissionsByExamIdQuery,
+  useGradeSubmissionMutation,
 } = examApi;
