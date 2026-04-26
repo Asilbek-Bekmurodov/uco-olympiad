@@ -1,4 +1,3 @@
-import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import Home from "./components/Home/Home";
 import PublicHero from "./components/Public/PublicHero";
@@ -46,12 +45,12 @@ const App = () => {
           path="/login"
           element={isReady ? <Navigate to={defaultRoute} replace /> : <Login />}
         />
-        <Route
+        {/* <Route
           path="/register"
           element={
             isReady ? <Navigate to={defaultRoute} replace /> : <Register />
           }
-        />
+        /> */}
         <Route path="/home" element={<Home />}>
           <Route path="my-exam/:testId" element={<ExamPage />} />
           <Route path="result" element={<ResultScreen />} />

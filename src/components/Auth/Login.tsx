@@ -201,10 +201,10 @@ const Login = () => {
                 {isLoading ? "Yuklanmoqda..." : "Kirish"}
               </button>
 
-              <div className="text-center text-[#9aa0c5] text-[1.4rem]">
+              {/* <div className="text-center text-[#9aa0c5] text-[1.4rem]">
                 yoki
-              </div>
-              <div className="text-center text-[#9aa0c5] text-[1.4rem]">
+              </div> */}
+              {/* <div className="text-center text-[#9aa0c5] text-[1.4rem]">
                 Hisobingiz yo&apos;qmi?{" "}
                 <button
                   type="button"
@@ -213,7 +213,7 @@ const Login = () => {
                 >
                   Ro&apos;yxatdan o&apos;tish
                 </button>
-              </div>
+              </div> */}
               <div className="flex flex-col items-center gap-2 pt-2 text-[1.3rem] text-[#7a7fa8]">
                 <span className="font-semibold text-[#3b3f66]">
                   Texnik yordam
