@@ -9,6 +9,7 @@ import Users from "./components/Dashboard/Users/Users";
 import { defaultRouteForRole, normalizeRole } from "./utils/roles";
 import Exams from "./components/Dashboard/Exams/Exams";
 import ExamDetails from "./components/Dashboard/Exams/ExamDetails";
+import Results from "./components/Dashboard/Results/Results";
 import ExamPage from "./components/Home/ExamPage";
 import ResultScreen from "./components/Home/ResultScreen";
 
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="users" element={<Users />} />
           <Route path="exams" element={<Exams />} />
           <Route path="exams/:id" element={<ExamDetails />} />
+          <Route path="results" element={<Results />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

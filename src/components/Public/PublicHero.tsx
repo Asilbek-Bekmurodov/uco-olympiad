@@ -6,7 +6,7 @@ interface PublicHeroProps {
   onRegister: () => void;
 }
 
-const PublicHero = ({ onLogin, onRegister }: PublicHeroProps) => {
+const PublicHero = ({ onLogin }: PublicHeroProps) => {
   return (
     <section className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,#ffffff_0%,#f1f2f9_45%,#eae7ff_100%)]">
       <div className="absolute -top-24 -left-24 h-[28rem] w-[28rem] rounded-full bg-[#7B6CFF] opacity-20 blur-[120px] float-slow" />
@@ -32,13 +32,13 @@ const PublicHero = ({ onLogin, onRegister }: PublicHeroProps) => {
             </p>
 
             <div className="mt-[2.4rem] flex flex-wrap gap-[1.2rem]">
-              <button
+              {/* <button
                 type="button"
                 onClick={onRegister}
                 className="rounded-[1.6rem] bg-gradient-to-r from-[#7B6CFF] to-[#5B3FFF] px-[3.2rem] py-[1.4rem] text-[1.6rem] font-semibold text-white shadow-[0_18px_36px_-16px_rgba(75,63,255,0.65)] transition hover:translate-y-[-2px] hover:opacity-95"
               >
                 Ro‘yxatdan o‘tish
-              </button>
+              </button> */}
               <button
                 type="button"
                 onClick={onLogin}

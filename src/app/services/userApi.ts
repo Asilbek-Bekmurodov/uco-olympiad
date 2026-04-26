@@ -44,6 +44,20 @@ export interface AdminUserUpdateRequest extends AdminUserCreateRequest {
   id: number;
 }
 
+export interface AdminResult {
+  userId: number;
+  firstname: string;
+  lastname: string;
+  phoneNumber: string;
+  className: string;
+  examTitle: string;
+  correctAnswers: number | null;
+  totalQuestions: number | null;
+  score: number | null;
+  status: string;
+  passed: boolean;
+}
+
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_BASE_URL as string,
   prepareHeaders: (headers, { getState, endpoint }) => {
@@ -68,7 +82,7 @@ export const userApi = createApi({
     }
     return result;
   },
-  tagTypes: ["AdminUsers"],
+  tagTypes: ["AdminUsers", "AdminResults"],
   endpoints: (builder) => ({
     getCountdown: builder.query<CountdownResponse, void>({
       query: () => ({
@@ -106,6 +120,13 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["AdminUsers"],
     }),
+    getAdminResults: builder.query<AdminResult[], void>({
+      query: () => ({
+        url: "/admin/results",
+        method: "GET",
+      }),
+      providesTags: ["AdminResults"],
+    }),
   }),
 });
 
@@ -115,4 +136,5 @@ export const {
   useCreateAdminUserMutation,
   useUpdateAdminUserMutation,
   useDeleteAdminUserMutation,
+  useGetAdminResultsQuery,
 } = userApi;

@@ -51,6 +51,19 @@ const Dashboard = () => {
             >
               Exams
             </NavLink>
+            <NavLink
+              to="/dashboard/results"
+              className={({ isActive }) =>
+                [
+                  "rounded-[1.2rem] px-3 py-2 text-[1.4rem] font-medium transition",
+                  isActive
+                    ? "bg-[#ffecec] text-[#b02020]"
+                    : "text-[#5a4f4f] hover:bg-[#fff4f4]",
+                ].join(" ")
+              }
+            >
+              Results
+            </NavLink>
           </nav>
         </aside>
 

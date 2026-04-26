@@ -1,0 +1,202 @@
+.container {
+  padding: 10px;
+  font-family: "Inter", sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1c1c4a;
+}
+
+.subtitle {
+  color: #8a8fb9;
+  margin-top: 5px;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 220px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #e1e3f0;
+  background: #f7f8fc;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #6c63ff;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1);
+}
+
+.clearButton {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid #e1e3f0;
+  background: #ffffff;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.clearButton:hover {
+  background: #f3f4fb;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filterLabel {
+  min-width: 60px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1c1c4a;
+}
+
+.filterButtons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #e1e3f0;
+  background: #f7f8fc;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.filterButton:hover {
+  background: #eef0ff;
+  border-color: #dfe4ff;
+}
+
+.filterActive {
+  background: #4f46e5;
+  color: #ffffff;
+  border-color: #4f46e5;
+}
+
+.tableWrapper {
+  background: white;
+  border-radius: 28px;
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(30, 30, 60, 0.08);
+  overflow: auto;
+  max-height: 60vh;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 14px;
+  font-weight: 600;
+  color: #8a8fb9;
+  border-bottom: 1px solid #eef0fa;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 14px;
+  border-bottom: 1px solid #f3f4fb;
+  white-space: nowrap;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.statusStarted {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.statusFinished {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.statusNotStarted {
+  background: #f3f4fb;
+  color: #8a8fb9;
+}
+
+.passedBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.passedTrue {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.passedFalse {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.emptyRow {
+  text-align: center;
+  padding: 30px;
+  color: #8a8fb9;
+}
+
+.loaderOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+.loaderBox {
+  transform: scale(0.7);
+}
