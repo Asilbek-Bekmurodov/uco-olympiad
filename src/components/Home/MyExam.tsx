@@ -17,11 +17,13 @@ const MyExam = () => {
   const handleStart = async (examId?: number) => {
     if (!examId) return;
     const result = await startExam(examId).unwrap();
+
     dispatch(
       setSession({
         testId: result.id,
         startTime: result.startTime,
         durationMinutes: result.durationMinutes,
+        examId,
       }),
     );
     navigate(`/home/my-exam/${result.id}`);

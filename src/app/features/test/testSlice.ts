@@ -5,6 +5,7 @@ type AnswerMap = Record<number, number>;
 
 type TestSession = {
   testId: number | null;
+  examId: number | null;
   startTime: string | null;
   durationMinutes: number | null;
 };
@@ -22,6 +23,7 @@ const initialState: TestState = {
   answers: {},
   session: {
     testId: null,
+    examId: null,
     startTime: null,
     durationMinutes: null,
   },
@@ -69,6 +71,7 @@ const testSlice = createSlice({
       state,
       action: PayloadAction<{
         testId: number;
+        examId: number;
         startTime: string;
         durationMinutes: number;
       }>,
@@ -77,6 +80,7 @@ const testSlice = createSlice({
         testId: action.payload.testId,
         startTime: action.payload.startTime,
         durationMinutes: action.payload.durationMinutes,
+        examId: action.payload.examId
       };
     },
     resetTest: () => initialState,

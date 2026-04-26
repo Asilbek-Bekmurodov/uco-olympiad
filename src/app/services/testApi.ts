@@ -122,7 +122,7 @@ export const testApi = createApi({
       }),
     }),
     getPracticalWorks: builder.query<StudentPracticalWork[], number>({
-      query: (testId) => `/tests/${testId}/practical-work`,
+      query: (examId) => `/tests/exam/${examId}/practical-work`,
     }),
     submitPracticalWork: builder.mutation<void, PracticalWorkSolution[]>({
       query: (body) => ({
